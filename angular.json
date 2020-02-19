@@ -27,7 +27,10 @@
               "apps/nx-test/src/favicon.ico",
               "apps/nx-test/src/assets"
             ],
-            "styles": ["apps/nx-test/src/styles.less"],
+            "styles": [
+                "apps/nx-test/src/styles.less",
+                "libs/shared-angular/src/lib/styles/index.less"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -103,6 +106,134 @@
             ],
             "exclude": ["**/node_modules/**"]
           }
+        }
+      }
+    },
+    "todos": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "less"
+        }
+      },
+      "root": "apps/todos",
+      "sourceRoot": "apps/todos/src",
+      "prefix": "nx-test",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/todos",
+            "index": "apps/todos/src/index.html",
+            "main": "apps/todos/src/main.ts",
+            "polyfills": "apps/todos/src/polyfills.ts",
+            "tsConfig": "apps/todos/tsconfig.app.json",
+            "aot": false,
+            "assets": ["apps/todos/src/favicon.ico", "apps/todos/src/assets"],
+            "styles": ["apps/todos/src/styles.less"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todos/src/environments/environment.ts",
+                  "with": "apps/todos/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "todos:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "todos:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "todos:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/todos/tsconfig.app.json",
+              "apps/todos/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/todos/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/todos/src/test.ts",
+            "tsConfig": "apps/todos/tsconfig.spec.json",
+            "karmaConfig": "apps/todos/karma.conf.js",
+            "polyfills": "apps/todos/src/polyfills.ts",
+            "styles": [],
+            "scripts": [],
+            "assets": []
+          }
+        }
+      }
+    },
+    "shared-angular": {
+      "projectType": "library",
+      "root": "libs/shared-angular",
+      "sourceRoot": "libs/shared-angular/src",
+      "prefix": "nx-test",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared-angular/tsconfig.lib.json",
+              "libs/shared-angular/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared-angular/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/shared-angular/src/test.ts",
+            "tsConfig": "libs/shared-angular/tsconfig.spec.json",
+            "karmaConfig": "libs/shared-angular/karma.conf.js"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "less"
         }
       }
     }

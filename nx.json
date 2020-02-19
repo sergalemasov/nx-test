@@ -10,6 +10,12 @@
   "projects": {
     "nx-test": {
       "tags": []
+    },
+    "todos": {
+      "tags": []
+    },
+    "shared-angular": {
+      "tags": []
     }
   }
 }
