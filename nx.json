@@ -10,9 +10,6 @@
   "projects": {
     "nx-test": {
       "tags": []
-    },
-    "nx-test-e2e": {
-      "tags": []
     }
   }
 }
